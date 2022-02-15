@@ -1,0 +1,23 @@
+<svg viewBox="0 0 780 245"
+    xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+    <text x="103" y="218" style="font-family:'PublicSans-Medium','Public Sans';font-weight:500;font-size:86.624px;fill:#f8fafc" transform="translate(-238.983 -360.885) scale(2.53971)">Go<tspan x="211.973px 266.503px 313.54px 347.626px" y="218px 218px 218px 218px">Vote</tspan>
+    </text>
+    <path style="fill:url(#a)" d="M428 364h39v115h-39z" transform="matrix(.39627 .3439 -.65544 .75524 544.074 -290.763)"/>
+    <text x="434" y="554" style="font-family:'PublicSans-Medium','Public Sans';font-weight:500;font-size:170.031px;fill:#f8fafc" transform="translate(-123.588 -524.037) scale(1.29388)">o</text>
+    <path style="fill:url(#b)" d="M428 364h39v115h-39z" transform="matrix(.39627 .3439 -.5498 .6335 588.467 -319.008)"/>
+    <path style="fill:url(#c)" d="M485.461 315.292H521V328h-35.539z" transform="matrix(1 0 0 1.07869 -10.365 -208.766)"/>
+    <defs>
+        <linearGradient id="a" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(19.9202 -12.6393 24.0891 10.452 450.246 364)">
+            <stop offset="0" style="stop-color:#00853e;stop-opacity:1"/>
+            <stop offset="1" style="stop-color:#ea580c;stop-opacity:1"/>
+        </linearGradient>
+        <linearGradient id="b" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(19.9202 -15.0682 24.0891 12.4605 421.63 494.068)">
+            <stop offset="0" style="stop-color:#00853e;stop-opacity:1"/>
+            <stop offset="1" style="stop-color:#ea580c;stop-opacity:1"/>
+        </linearGradient>
+        <linearGradient id="c" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(16.1781 -2.49849 2.6951 14.9979 494.276 322.385)">
+            <stop offset="0" style="stop-color:#00853e;stop-opacity:1"/>
+            <stop offset="1" style="stop-color:#ea580c;stop-opacity:1"/>
+        </linearGradient>
+    </defs>
+</svg>

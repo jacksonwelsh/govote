@@ -1,59 +1,27 @@
 <script context="module" lang="ts">
+	import Add16 from 'carbon-icons-svelte/lib/Add16';
 	export const prerender = true;
+	import Banner from '$lib/Banner.svelte';
 </script>
 
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
 </script>
 
 <svelte:head>
 	<title>Home</title>
 </svelte:head>
 
-<section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
+<div class="flex h-full w-full flex-grow flex-col">
+	<Banner>
+		<div class="my-auto">
+			<h1 class="my-2">Welcome to GoVote</h1>
+			<p>Create, sign, and view petitions from your fellow students.</p>
 		</div>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+	</Banner>
+	<section class="container mx-auto">
+		<p>Let's get started.</p>
+		<a href="/create" class="my-2 inline-flex items-center rounded-md bg-slate-500 px-4 py-2">
+			<Add16 class="mr-2" /> Create a petition</a
+		>
+	</section>
+</div>
