@@ -7,8 +7,8 @@ module.exports = {
 		},
 		extend: {
 			backgroundImage: {
-				'flutter-pattern': "url('flutter.svg')",
-				'flutter-light': "url('flutter-light.svg')"
+				'flutter-pattern': "url('/flutter.svg')",
+				'flutter-light': "url('/flutter-light.svg')"
 			}
 		}
 	},

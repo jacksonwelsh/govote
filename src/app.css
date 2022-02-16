@@ -5,5 +5,17 @@
 @tailwind utilities;
 
 h1 {
-  @apply text-6xl font-serif font-bold
+	@apply font-serif text-6xl font-bold;
+}
+
+h2 {
+	@apply font-serif text-4xl font-semibold;
+}
+
+h3 {
+	@apply font-serif text-2xl font-semibold;
+}
+
+p {
+  @apply my-2
 }

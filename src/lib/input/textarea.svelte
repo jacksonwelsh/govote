@@ -1,9 +1,14 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
+
 	export let label = undefined;
 	export let hint = undefined;
 	export let rows = 6;
 
 	export let value = '';
+
+	const dispatch = createEventDispatcher();
+	const onFocus = () => dispatch('focus');
 </script>
 
 <form class="my-2">
@@ -11,9 +16,10 @@
 		{label}
 		<textarea
 			bind:value
-			class="w-full rounded-md border-slate-700 bg-slate-800 focus:border-slate-500 focus:outline-none"
+			on:focus={onFocus}
+			class="w-full rounded-md focus:border-slate-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800"
 			{rows}
 		/>
 	</label>
-	{#if hint} <p class="mt-1 text-sm text-slate-400">{hint}</p>{/if}
+	{#if hint} <p class="text-sm text-slate-400">{hint}</p>{/if}
 </form>

@@ -1,7 +1,10 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	export let label = undefined;
 	export let hint = undefined;
 	export let value = '';
+	const dispatch = createEventDispatcher();
+	const onFocus = () => dispatch('focus');
 </script>
 
 <div class="my-2">
@@ -9,7 +12,8 @@
 		{label}
 		<input
 			bind:value
-			class="w-full rounded-md border-slate-700 bg-slate-800 focus:border-slate-500 focus:outline-none"
+			on:focus={onFocus}
+			class="w-full rounded-md focus:border-slate-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800"
 			type="text"
 		/>
 	</label>
