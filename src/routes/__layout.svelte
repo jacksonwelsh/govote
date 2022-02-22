@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Header from '$lib/header/Header.svelte';
+	import Header from '$lib/layout/Header.svelte';
+	import Footer from '$lib/layout/Footer.svelte';
 	import '../app.css';
 </script>
 
@@ -9,4 +10,6 @@
 	<main class="flex h-full w-full flex-grow flex-col">
 		<slot />
 	</main>
+
+	<Footer />
 </div>
