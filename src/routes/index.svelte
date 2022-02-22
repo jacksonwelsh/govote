@@ -1,9 +1,7 @@
 <script context="module" lang="ts">
-	import Add16 from 'carbon-icons-svelte/lib/Add16';
 	import Banner from '$lib/Banner.svelte';
 	import Card from '$lib/petition/card.svelte';
 	import { v4 } from '@lukeed/uuid';
-	export const prerender = true;
 	const cards = [
 		{
 			title: 'Abolish the parking department',
@@ -62,9 +60,12 @@
 			<p>Create, sign, and view petitions from your fellow students.</p>
 		</div>
 	</Banner>
-	<section class="container mx-auto my-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-		{#each cards as petition}
-			<Card {...petition} id={v4()} />
-		{/each}
+	<section class="container mx-auto my-6 px-2 md:px-0">
+		<h2 class="mb-4">Recent Petitions</h2>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+			{#each cards as petition}
+				<Card {...petition} id={v4()} />
+			{/each}
+		</div>
 	</section>
 </div>
