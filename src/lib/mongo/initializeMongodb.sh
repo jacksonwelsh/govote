@@ -1,2 +1,5 @@
 #!/bin/bash
-mongo govote --eval "db.dropDatabase(); db.createCollection('petitions'); db.createCollection('users'); db.createCollection('groups'); db.getCollectionNames()"
+sudo apt-get install mongodb
+./initializeServer.sh #This might fail if the server runs after installing
+./initializeDatabase.sh
+./fillDatabase.sh
