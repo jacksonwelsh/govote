@@ -2,7 +2,7 @@
 	import Banner from '$lib/Banner.svelte';
 	import Card from '$lib/petition/card.svelte';
 	import { v4 } from '@lukeed/uuid';
-	const cards = await this.fetch(`blog.json`).then(r => r.json()).then(posts => {
+	const cards = await this.fetch(`petitions.json`).then(r => r.json()).then(posts => {
 		return { posts };	//Extract all petitions
 	});
 </script>
