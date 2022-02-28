@@ -1,8 +1,7 @@
 <script>
-	export let title = '';
-	export let desc = '';
 	export let _id = '';
-
+	export let title = _id || '';
+	export let desc = '';
 	const formattedDesc = desc.substring(0, 255) + '...';
 </script>
 
