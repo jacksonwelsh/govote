@@ -2,7 +2,7 @@
 #This script puts filler petitions, users, and groups in the website
 function addPetition(){
 	mongo govote --eval "lipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
-		db.petitions.insert({_id: '$1', title: '$1', desc: lipsum});"
+		db.petitions.insert({_id: '$1', desc: lipsum});"
 }
 #You don't have to worry about it overflowing with petitions if you run this multiple times because it will delete all the petitions
 #But you do have to be careful to not run this if you want to keep your data
