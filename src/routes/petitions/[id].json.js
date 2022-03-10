@@ -1,4 +1,5 @@
 import { init } from '$lib/mongo/mongo';
+import { ObjectId } from 'mongodb';
 
 export async function get(request) {
 	//Get id from the parameters.
@@ -7,7 +8,7 @@ export async function get(request) {
 
 	//Get database from mongo init
 	const { db } = await init();
-	const query = { title: _id }; //console.log(query);
+	const query = { _id: ObjectId(_id) }; //console.log(query);
 	const entry = await db.collection('petitions').findOne(query);
 
 	if (entry) {
@@ -21,6 +22,6 @@ export async function get(request) {
 	return {
 		status: 404,
 		headers: { 'content-type': 'application/json' },
-		body: { _id: 'Not Found', desc: 'Error 404: not found' }
+		body: { title: 'Not Found', desc: 'Error 404: not found' }
 	};
 }

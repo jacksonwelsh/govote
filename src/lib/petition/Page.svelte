@@ -4,5 +4,7 @@
 	export let desc = '';
 </script>
 
-<h1>{title}</h1>
-{desc}
+<div class="prose container mx-auto mt-4">
+	<h1 class="my-2">{title}</h1>
+	{desc}
+</div>
