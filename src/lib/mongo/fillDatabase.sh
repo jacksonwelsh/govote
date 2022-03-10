@@ -4,6 +4,14 @@ function addPetition(){
 	mongo govote --eval "lipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 		db.petitions.insert({_id: '$1', desc: lipsum});"
 }
+function addUser(){
+	mongo govote --eval "lipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+		db.users.insert({voterid: '$1', bio: lipsum});"
+}
+function addGroup(){
+	mongo govote --eval "lipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+		db.groups.insert({voterid: '$1', bio: lipsum});"
+}
 #You don't have to worry about it overflowing with petitions if you run this multiple times because it will delete all the petitions
 #But you do have to be careful to not run this if you want to keep your data
 mongo govote --eval "db.dropDatabase();"
