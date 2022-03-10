@@ -1,14 +1,14 @@
-import { init } from "$lib/mongo/mongo";
+import { init } from '$lib/mongo/mongo';
 
-export async function get(request){
+export async function get() {
 	const { db } = await init();
 
-	const posts = await db.collection("petitions").find().toArray();
+	const posts = await db.collection('petitions').find().toArray();
 
 	return {
 		headers: { 'content-type': 'application/json' },
-                //We don't need to stringify it because of this
-                //https://github.com/sveltejs/kit/issues/1226
+		//We don't need to stringify it because of this
+		//https://github.com/sveltejs/kit/issues/1226
 		body: posts
 	};
 }

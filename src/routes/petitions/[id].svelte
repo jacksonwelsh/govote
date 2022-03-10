@@ -1,21 +1,26 @@
 <!-- This file generates a detailed petition page -->
 <script context="module">
-	//The formatting of the page is defined in Page.svelte 
+	//The formatting of the page is defined in Page.svelte
 	import Page from '$lib/petition/Page.svelte';
 
 	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ params, fetch }) {
-                const res = await fetch('./' + params.id + '.json');
-		const petition = await res.json();
-		console.log(petition);
-                return {
-                        props: { petition }
-                };
-        };
+		return {
+			props: { id: params.id }
+		};
+	}
 </script>
 
 <script>
-	export let petition;
+	export let id;
+
+	const petition = fetch('./' + id + '.json').then((r) => r.json());
 </script>
 
-<Page {...petition}/>
+{#await petition}
+	loading...
+{:then petition}
+	<Page {...petition} />
+{:catch}
+	oops
+{/await}

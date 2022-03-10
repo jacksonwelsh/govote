@@ -1,8 +1,8 @@
 #!/bin/bash
 #This script puts filler petitions, users, and groups in the website
-function addPetition(){
+function addPetition() {
 	mongo govote --eval "lipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
-		db.petitions.insert({_id: '$1', desc: lipsum});"
+		db.petitions.insert({title: '$1', desc: lipsum});"
 }
 function addUser(){
 	mongo govote --eval "lipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';

@@ -1,25 +1,12 @@
-<svelte:head>
-	<title>GoVote Home</title>
-</svelte:head>
-
-<script context="module" lang="ts">
+<script>
 	import Banner from '$lib/Banner.svelte';
 	import Card from '$lib/petition/card.svelte';
-	import { v4 } from '@lukeed/uuid';
-
-	export async function load({ fetch }) {
-		const res = await fetch('/petitions.json');
-		const petitions = await res.json();
-
-		return {
-			props: { petitions }
-		};
-	}
+	const petitions = fetch('/petitions.json').then((r) => r.json());
 </script>
 
-<script>
-	export let petitions;
-</script>
+<svelte:head>
+	<title>GoVote</title>
+</svelte:head>
 
 <div class="flex h-full w-full flex-grow flex-col">
 	<Banner>
@@ -29,17 +16,22 @@
 		</div>
 	</Banner>
 	<section class="container mx-auto my-6 px-2 md:px-0">
-		<!--{#await petitionsPromise}
-			GoLoad...
-		{:then petitions}-->
-		<h2 class="mb-4">Recent Petitions</h2>
-		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-			{#each petitions as petition}
-				<Card {...petition} id={v4()} />
-			{/each}
-		</div>
-		<!--{:catch error}
+		{#await petitions}
+			<h2 class="mb-4">Loading Petitions...</h2>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+				{#each Array(10) as _}
+					<Card loading={true} />
+				{/each}
+			</div>
+		{:then petitions}
+			<h2 class="mb-4">Recent Petitions</h2>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+				{#each petitions as petition}
+					<Card {...petition} />
+				{/each}
+			</div>
+		{:catch error}
 			GoFail. :(
-		{/await}-->
+		{/await}
 	</section>
 </div>
