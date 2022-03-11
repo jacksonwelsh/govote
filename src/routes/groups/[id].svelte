@@ -1,21 +1,26 @@
 <!-- This file generates a detailed group page -->
 <script context="module">
-	//The formatting of the page is defined in Page.svelte 
+	//The formatting of the page is defined in Page.svelte
 	import Page from '$lib/group/Page.svelte';
 
 	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ params, fetch }) {
-                const res = await fetch('./' + params.id + '.json');
-		const group = await res.json();
-		console.log(group);
-                return {
-                        props: { group }
-                };
-        };
+		return {
+			props: { id: params.id }
+		};
+	}
 </script>
 
 <script>
-	export let group;
+	export let id;
+
+	const group = fetch('./' + id + '.json').then((r) => r.json());
 </script>
 
-<Page {...group}/>
+{#await group}
+	loading...
+{:then group}
+	<Page {...group} />
+{:catch}
+	oops
+{/await}

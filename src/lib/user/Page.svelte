@@ -4,5 +4,5 @@
 	export let bio = '';
 </script>
 
-<h1>{title}</h1>
-{desc}
+<h1>{voterid}</h1>
+{bio}

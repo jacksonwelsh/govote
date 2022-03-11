@@ -26,3 +26,7 @@ addPetition 'Make a new DP parking permit only valid for Discovery Park'
 addPetition 'Require students to wear masks at social gatherings'
 addPetition 'Update myUNT to show an itemized bill for each semester'
 mongo govote --eval "db.petitions.find()"
+addUser 'lsm0147'
+mongo govote --eval "db.users.find()"
+addGroup 'UNT SGA'
+mongo govote --eval "db.users.find()"
