@@ -3,7 +3,7 @@
 </script>
 
 <footer
-	class="mt-6 flex items-center justify-center bg-slate-200 py-6 underline-offset-1 dark:bg-slate-800"
+	class="bg-slate-200 py-6 underline-offset-1 dark:bg-slate-800 text-center"
 >
 	Created by
 	<!-- Iterate over authors and join appropriately. -->
