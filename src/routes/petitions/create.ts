@@ -1,4 +1,4 @@
-import { collections } from '$lib/mongo/mongo';
+import { collections } from '$lib/mongo';
 
 /** @type {import('./create').RequestHandler} */
 export const post = async ({ request }) => {

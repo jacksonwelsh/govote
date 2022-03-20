@@ -1,4 +1,4 @@
-import { collections } from '$lib/mongo/mongo';
+import { collections } from '$lib/mongo';
 
 export async function get() {
 	const posts = await collections.petitions?.find().toArray();

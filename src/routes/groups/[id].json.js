@@ -1,4 +1,4 @@
-import { collections } from '$lib/mongo/mongo';
+import { collections } from '$lib/mongo';
 import { ObjectId } from 'mongodb';
 
 export async function get(request) {
