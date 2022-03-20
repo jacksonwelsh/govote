@@ -1,9 +1,7 @@
-import { init } from '$lib/mongo/mongo';
+import { collections } from '$lib/mongo/mongo';
 
 export async function get() {
-	const { db } = await init();
-
-	const posts = await db.collection('petitions').find().toArray();
+	const posts = await collections.petitions?.find().toArray();
 
 	return {
 		headers: { 'content-type': 'application/json' },

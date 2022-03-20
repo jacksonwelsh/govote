@@ -1,4 +1,4 @@
-import { init } from '$lib/mongo/mongo';
+import { collections } from '$lib/mongo/mongo';
 import { ObjectId } from 'mongodb';
 
 export async function get(request) {
@@ -6,10 +6,9 @@ export async function get(request) {
 	//We have this because the file is named [id].json.js
 	const _id = request.params.id;
 
-	//Get database from mongo init
-	const { db } = await init();
-	const query = { _id: ObjectId(_id) }; //console.log(query);
-	const entry = await db.collection('petitions').findOne(query);
+	// construct query
+	const query = { _id: new ObjectId(_id) };
+	const entry = await collections.petitions?.findOne(query);
 
 	if (entry) {
 		return {
