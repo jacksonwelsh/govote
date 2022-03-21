@@ -23,8 +23,6 @@ const checkAllCaps = (str: string, threshold = 0.7): boolean => {
   let numCaps = 0;
   for (let i = 0; i < str.length; ++i) if (str.charAt(i).match(/[A-Z]/)) ++numCaps;
 
-  console.log({ numCaps, len: str.length, ts: numCaps / str.length > threshold });
-
   if (numCaps / str.length > threshold) return false;
   return true;
 };
