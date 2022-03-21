@@ -114,8 +114,8 @@
       </p>
       <p>
         You need to type at least 1000 characters (about 150 words), but you are encouraged to write
-        more. A petition that's not detailed enough is much less likely to achieve what you want,
-        and may be slower to get votes. It also helps draw students to your cause if you can explain
+        more. A petition that's not detailed enough is much less likely to achieve what you want
+        and might be slower to gain votes. It also helps draw students to your cause if you can explain
         why this is important to you.
       </p>
     </div>
@@ -129,7 +129,7 @@
       <h3>Tagging Decision-Makers</h3>
       <p>
         Tagging design makers is what makes your petition actionable. This is who we'll send a
-        report on the petition to, indication that there is significant student support for an
+        report on the petition to, indicating that there is significant student support for
         action (we'll include your Description as a description of the issue).
       </p>
     </div>
