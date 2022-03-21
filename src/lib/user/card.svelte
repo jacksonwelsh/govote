@@ -2,6 +2,7 @@
 	export let _id = '';
 	export let voterid = '';
 	export let bio = '';
+	export let loading = false;
 	const formattedBio = bio.substring(0, 255) + '...';
 </script>
 
