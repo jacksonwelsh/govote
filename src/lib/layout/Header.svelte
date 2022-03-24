@@ -12,6 +12,8 @@
 			<Add16 class="mr-2" /> Create a petition
 		</Button>
 		<a href="/" class="mx-4">Home</a>
+		<a href="/users" class="mx-4">Users</a>
+		<a href="/groups" class="mx-4">Groups</a>
 		<a href="/about" class="mx-4">About</a>
 	</div>
 </nav>
