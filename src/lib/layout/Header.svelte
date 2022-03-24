@@ -4,7 +4,7 @@
 </script>
 
 <nav class="flex w-full justify-between bg-slate-900 py-3 px-4 text-slate-50 shadow-lg">
-	<a href="/">
+	<a href="/" class="flex items-center">
 		<img class="h-8 text-red-500" src="/govote-dark.svg" alt="GoVote" />
 	</a>
 	<div class="flex items-center">
