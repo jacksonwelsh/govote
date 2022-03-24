@@ -1,5 +1,5 @@
 import { collections } from '$lib/mongo';
-import type { RequestHandler } from '@sveltejs/kit/types/endpoint';
+import type { RequestHandler } from '@sveltejs/kit';
 import { ObjectId } from 'mongodb';
 
 export const get: RequestHandler = async (request) => {

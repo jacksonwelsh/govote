@@ -1,0 +1,52 @@
+{
+  "File": {
+    "Created": "proxmark3 `emv scan`"
+  },
+  "Card": {
+    "Contactless": {
+      "Communication": "iso14443-4a",
+      "UID": "08 64 3F 85",
+      "ATQA": "00 04",
+      "SAK": "20",
+      "ATS": "05 78 80 70 02 A5 46"
+    }
+  },
+  "PPSE": {
+    "AID": "32 50 41 59 2E 53 59 53 2E 44 44 46 30 31",
+    "FCITemplate": {
+      "name": "File Control Information (FCI) Template",
+      "tag": "6F",
+      "length": "23",
+      "value": "84 0E 32 50 41 59 2E 53 59 53 2E 44 44 46 30 31 A5 11 BF 0C 0E 61 0C 4F 07 A0 00 00 00 03 10 10 87 01 01"
+    }
+  },
+  "Application": {
+    "AID": "A0 00 00 00 03 10 10",
+    "Mode": "MSD",
+    "FCITemplate": {
+      "name": "File Control Information (FCI) Template",
+      "tag": "6F",
+      "length": "34",
+      "value": "84 07 A0 00 00 00 03 10 10 A5 29 9F 38 1B 9F 66 04 9F 02 06 9F 03 06 9F 1A 02 95 05 5F 2A 02 9A 03 9C 01 9F 37 04 9F 4E 14 BF 0C 08 9F 5A 05 11 08 40 08 40"
+    },
+    "GPO": {
+      "name": "Response Message Template Format 1",
+      "tag": "80",
+      "length": "06",
+      "value": "00 80 08 01 01 00"
+    },
+    "Records": [
+      {
+        "SFI": "01",
+        "RecordNum": "01",
+        "Offline": "00",
+        "Data": {
+          "name": "READ RECORD Response Message Template",
+          "tag": "70",
+          "length": "1A",
+          "value": "57 13 40 54 13 25 07 91 70 68 D2 31 22 01 00 00 08 83 01 00 5F 5F 20 02 20 2F"
+        }
+      }
+    ]
+  }
+}
