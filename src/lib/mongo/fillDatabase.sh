@@ -6,11 +6,11 @@ function addPetition() {
 }
 function addUser(){
 	mongo govote --eval "lipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
-		db.users.insert({voterid: '$1', bio: lipsum, representatives: [], followers: [], petitionsVotedFor: []});"
+		db.voters.insert({isGroup: false, voterid: '$1', bio: lipsum, representatives: [], followers: [], petitionsVotedFor: []});"
 }
 function addGroup(){
 	mongo govote --eval "lipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
-		db.groups.insert({voterid: '$1', bio: lipsum, representatives: [], followers: [], petitionsVotedFor: []});"
+		db.voters.insert({isGroup: true, voterid: '$1', bio: lipsum, representatives: [], followers: [], petitionsVotedFor: []});"
 }
 #You don't have to worry about it overflowing with petitions if you run this multiple times because it will delete all the petitions
 #But you do have to be careful to not run this if you want to keep your data
@@ -27,6 +27,6 @@ addPetition 'Require students to wear masks at social gatherings'
 addPetition 'Update myUNT to show an itemized bill for each semester'
 mongo govote --eval "db.petitions.find()"
 addUser 'lsm0147'
-mongo govote --eval "db.users.find()"
+mongo govote --eval "db.voters.find()"
 addGroup 'UNT SGA'
-mongo govote --eval "db.users.find()"
+mongo govote --eval "db.voters.find()"

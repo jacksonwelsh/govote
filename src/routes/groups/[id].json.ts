@@ -7,8 +7,8 @@ export const get: RequestHandler = async (request) => {
   //We have this because the file is named [id].json.js
   const _id = request.params.id;
 
-  const query = { _id: new ObjectId(_id) }; //console.log(query);
-  const entry = await collections.groups.findOne(query);
+  const query = { _id: new ObjectId(_id), isGroup: true }; //console.log(query);
+  const entry = await collections.voters.findOne(query);
 
   if (entry) {
     return {

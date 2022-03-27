@@ -3,8 +3,7 @@ import env from '../../environment';
 
 export const collections: {
 	petitions?: mongo.Collection;
-	users?: mongo.Collection;
-	groups?: mongo.Collection;
+	voters?: mongo.Collection;
 } = {};
 
 export async function init() {
@@ -14,6 +13,5 @@ export async function init() {
 	const db: mongo.Db = client.db(env.DB_NAME);
 
 	collections.petitions = db.collection('petitions');
-	collections.users = db.collection('users');
-	collections.groups = db.collection('groups');
+	collections.voters = db.collection('voters');
 }

@@ -1,4 +1,4 @@
-import { petitions, users, groups } from '$lib/mongo';
+import { petitions, voters } from '$lib/mongo';
 import { ObjectId } from 'mongodb';
 import assert from 'assert';
 
@@ -18,26 +18,26 @@ async function propagate(followers: Array<ObjectId>, petitionId: ObjectId, votin
 
 export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOptions: votingOptions = {answerIndex: 0, representative: voterId}){
 	const petition = petitions.findOne({ _id: petitionId });
-	const user = users.findOne({ id_: voterId });
+	const voter = voters.findOne({ id_: voterId }); assert.notStrictEqual(voter, undefined, "Couldn't find a voter with that id");
 
-	//User
-	if(users != undefined){
-		const petitionsVotedFor = user.petitionsVotedFor;
+	const petitionsVotedFor = voter.petitionsVotedFor;
 
-		//Check to see if the vote isn't overruled
-		//If the one voting is the person, disregard the checks
-		//If they haven't voted, go ahead and vote
-		if((voterId != representativeId) && (petitionsVotedFor.includes(petitionId)){
-			assert.notStrictEqual(voterId, undefined, "The user says it voted but the petition doesn't");
+	//Check to see if the vote isn't overruled
+	//If the one voting is the person, disregard the checks
+	//If they haven't voted, go ahead and vote
+	if((voterId != representativeId) && (petitionsVotedFor.includes(petitionId)){
+		assert.notStrictEqual(petition.votes[voterId], undefined, "The voter says it voted but the petition doesn't");
 
-			//If the petition had already been voted for, we have to check if the representative is higher than the one that already voted
-			if((user.representatives.indexOf(petition.votes[voterId].representative) < user.representatives)){
+		//If the petition had already been voted for, we have to check if the representative is higher than the one that already voted
+		if((voter.representatives.indexOf(petition.votes[voterId].representative) < voter.representatives)){
 
-				//Don't vote and don't propogate
-				return;
-			}
+			//Don't vote and don't propogate
+			return;
 		}
+	}
 
+	//If you're a group, don't vote
+	if(!(voter.isGroup)){
 		//Vote
 		petitions.updateOne({ _id: petitionId },
 			{
@@ -48,44 +48,13 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 
 		//Could possibly get duplicates if there are two calls at once. Need a set, but you can't BSON a set.
 		if(!petitionsVotedFor.includes(petitionId)){
-			users.updateOne({id_: voterId},
+			voters.updateOne({id_: voterId},
 				$push: {
 					petitionsVotedFor: petitionId
 				}
 			});
 		}
-
-		propagate(user.followers, petitionId, votingOptions);
-	//Group
-	}else{
-		//The voter is a group. Propagate but don't actually vote for the petition.
-		const group = groups.findOne({ id_: voterId });
-		
-		assert.notStrictEqual(group, undefined, "User or group id not found");
-
-		const petitionsVotedFor = group.petitionsVotedFor;
-
-		//Check to see if the vote isn't overruled
-		//If the one voting is the person, disregard the checks
-		if((voterId != representativeId) &&
-			//If they haven't voted, go ahead and vote
-			(petitionsVotedFor.includes(petitionId) &&
-			//If the petition had already been voted for, we have to check if the representative is higher than the one that already voted
-			(group.representatives.indexOf(petition.votes[voterId].representative) < group.representatives)){
-
-			//Don't vote and don't propogate
-			return;
-		}
-
-		if(!petitionsVotedFor.includes(petitionId)){
-			group.updateOne({id_: voterId},
-				$push: {
-					petitionsVotedFor: petitionId
-				}
-			});
-		}
-
-		//Propagate
-		propagate(group.followers, petitionId, votingOptions);
 	}
+
+	propagate(voter.followers, petitionId, votingOptions);
 }
