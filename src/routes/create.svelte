@@ -51,7 +51,7 @@
   <div class="my-auto">
     <h1 class="my-2">Create a petition</h1>
     <p>
-      Now's your time to shine. Fill out this simple form to add your petition to GoVote! {college}
+      Now's your time to shine. Fill out this simple form to add your petition to GoVote!
     </p>
   </div>
 </Banner>
