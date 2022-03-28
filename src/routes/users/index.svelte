@@ -12,7 +12,7 @@
 	<Banner>
 		<div class="my-auto">
 			<h1 class="my-2">Welcome to GoVote</h1>
-			<p>Create, sign, and view users from your fellow students.</p>
+			<p>View the profiles of other users.</p>
 		</div>
 	</Banner>
 	<section class="container mx-auto my-6 px-2 md:px-0">
