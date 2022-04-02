@@ -58,3 +58,22 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 
 	propagate(voter.followers, petitionId, votingOptions);
 }
+
+//answerIndex defaults to 0, which is "Approve"
+export async function petitionVotes(petitionId: ObjectId, answerIndex: number = 0): number{
+	let count = 0;
+	for(let vote of petitions.find({ _id: petitionId }).votes){
+		//vote is a votingOptions interface, so we can get the answerIndex
+		if(vote.answerIndex == answerIndex) ++count;
+	}
+	return count;
+}
+
+//Returns a ratio of approve votes to disapprove votes.
+//Assuming that the petition has only two answers, Approve: 0 and Disapprove: 1
+//and that we want higher vitality to mean more approval
+export async function petitionVitalityScore(petitionId: ObjectId): number{
+	const yeas: number = petitionVotes(petitionId, 0);
+	const nays: number = petitionVotes(petitionId, 1);
+	return yeas / (yeas + nays);
+}
