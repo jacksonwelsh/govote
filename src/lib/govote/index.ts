@@ -1,6 +1,9 @@
-import { petitions, voters } from '$lib/mongo';
+import { collections } from '$lib/mongo';
 import { ObjectId } from 'mongodb';
 import assert from 'assert';
+
+const petititions = collections.petitions;
+const votes = collections.votes;
 
 interface votingOptions{
 	answerIndex: number;
@@ -25,7 +28,7 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 	//Check to see if the vote isn't overruled
 	//If the one voting is the person, disregard the checks
 	//If they haven't voted, go ahead and vote
-	if((voterId != representativeId) && (petitionsVotedFor.includes(petitionId)){
+	if((voterId != representativeId) && (petitionsVotedFor.includes(petitionId))){
 		assert.notStrictEqual(petition.votes[voterId], undefined, "The voter says it voted but the petition doesn't");
 
 		//If the petition had already been voted for, we have to check if the representative is higher than the one that already voted
@@ -41,14 +44,14 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 		//Vote
 		petitions.updateOne({ _id: petitionId },
 			{
-				$set: { ("votes."+voterId) : votingOptions },
+				$set: { ["votes."+voterId] : votingOptions },
 				$currentDate: { lastModified: true }
 			}
 		);
 
 		//Could possibly get duplicates if there are two calls at once. Need a set, but you can't BSON a set.
 		if(!petitionsVotedFor.includes(petitionId)){
-			voters.updateOne({id_: voterId},
+			voters.updateOne({id_: voterId}, {
 				$push: {
 					petitionsVotedFor: petitionId
 				}
