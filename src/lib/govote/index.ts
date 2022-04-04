@@ -2,9 +2,6 @@ import { collections } from '$lib/mongo';
 import { ObjectId } from 'mongodb';
 import assert from 'assert';
 
-const petititions = collections.petitions;
-const votes = collections.votes;
-
 interface votingOptions{
 	answerIndex: number;
 	representative: ObjectId;
@@ -20,8 +17,8 @@ async function propagate(followers: Array<ObjectId>, petitionId: ObjectId, votin
 //export async function follow(followerId: ObjectId, representativeId: representative)
 
 export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOptions: votingOptions = {answerIndex: 0, representative: voterId}){
-	const petition = petitions.findOne({ _id: petitionId });
-	const voter = voters.findOne({ id_: voterId }); assert.notStrictEqual(voter, undefined, "Couldn't find a voter with that id");
+	const petition = collections.petitions.findOne({ _id: petitionId });
+	const voter = collections.voters.findOne({ id_: voterId }); assert.notStrictEqual(voter, undefined, "Couldn't find a voter with that id");
 
 	const petitionsVotedFor = voter.petitionsVotedFor;
 
@@ -42,7 +39,7 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 	//If you're a group, don't vote
 	if(!(voter.isGroup)){
 		//Vote
-		petitions.updateOne({ _id: petitionId },
+		collections.petitions.updateOne({ _id: petitionId },
 			{
 				$set: { ["votes."+voterId] : votingOptions },
 				$currentDate: { lastModified: true }
@@ -51,7 +48,7 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 
 		//Could possibly get duplicates if there are two calls at once. Need a set, but you can't BSON a set.
 		if(!petitionsVotedFor.includes(petitionId)){
-			voters.updateOne({id_: voterId}, {
+			collections.voters.updateOne({id_: voterId}, {
 				$push: {
 					petitionsVotedFor: petitionId
 				}
@@ -65,7 +62,8 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 //answerIndex defaults to 0, which is "Approve"
 export async function petitionVotes(petitionId: ObjectId, answerIndex: number = 0): number{
 	let count = 0;
-	for(let vote of petitions.find({ _id: petitionId }).votes){
+	const petition = await collections.petitions.findOne({ _id: petitionId });
+	for(let vote of Object.values(petition.votes)){
 		//vote is a votingOptions interface, so we can get the answerIndex
 		if(vote.answerIndex == answerIndex) ++count;
 	}
@@ -76,7 +74,8 @@ export async function petitionVotes(petitionId: ObjectId, answerIndex: number = 
 //Assuming that the petition has only two answers, Approve: 0 and Disapprove: 1
 //and that we want higher vitality to mean more approval
 export async function petitionVitalityScore(petitionId: ObjectId): number{
-	const yeas: number = petitionVotes(petitionId, 0);
-	const nays: number = petitionVotes(petitionId, 1);
+	const yeas: number = await petitionVotes(petitionId, 0);
+	const nays: number = await petitionVotes(petitionId, 1);
+	if((yeas + nays) == 0) return 0;
 	return yeas / (yeas + nays);
 }
