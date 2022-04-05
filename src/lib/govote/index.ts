@@ -79,3 +79,13 @@ export async function petitionVitalityScore(petitionId: ObjectId): number{
 	if((yeas + nays) == 0) return 0;
 	return yeas / (yeas + nays);
 }
+
+export async function signatures(petitionId: ObjectId): number{
+	let count = 0;
+	const petition = await collections.petitions.findOne({ _id: petitionId });
+	for(let vote of Object.keys(petition.votes)){
+		//vote is a votingOptions interface, so we can get the answerIndex
+		if(vote == petition.votes[vote].representative && petitions.votes[vote].answerIndex == answerIndex) ++count;
+	}
+	return count;
+}
