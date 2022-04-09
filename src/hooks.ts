@@ -25,3 +25,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   return response;
 };
+
+export const getSession = async (request) => ({
+  user: request.locals.user,
+  token: request.locals.token,
+});

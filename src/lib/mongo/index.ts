@@ -4,6 +4,7 @@ import env from '../../environment';
 export const collections: {
 	petitions?: mongo.Collection;
 	voters?: mongo.Collection;
+	users?: mongo.Collection;
 } = {};
 
 export async function init() {
@@ -14,4 +15,5 @@ export async function init() {
 
 	collections.petitions = db.collection('petitions');
 	collections.voters = db.collection('voters');
+	collections.users = db.collection('users');
 }

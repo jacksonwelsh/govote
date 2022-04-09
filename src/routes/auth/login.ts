@@ -1,6 +1,6 @@
+import User from '$lib/models/user';
 import { collections } from '$lib/mongo';
 import type { RequestHandler } from '@sveltejs/kit';
-import { ObjectId } from 'mongodb';
 
 interface LoginData {
   username: string;
@@ -19,4 +19,23 @@ export const post: RequestHandler = async ({ request }) => {
   // user collection verified to exist
 
   const data = (await request.json()) as LoginData;
+
+  const user = await userCollection.findOne({ username: data.username });
+
+  const userModeled = new User(user.username, user._password, user.college, user.name, false);
+
+  if (userModeled.validatePassword(data.password))
+    return {
+      body: {
+        user: {
+          ...user,
+          _password: undefined,
+        },
+        token: {},
+      },
+    };
+
+  return {
+    status: 401,
+  };
 };
