@@ -73,14 +73,14 @@ export async function petitionVotes(petitionId: ObjectId, answerIndex: number = 
 //Returns a ratio of approve votes to disapprove votes.
 //Assuming that the petition has only two answers, Approve: 0 and Disapprove: 1
 //and that we want higher vitality to mean more approval
-export async function petitionVitalityScore(petitionId: ObjectId): number{
+export async function petitionVitality(petitionId: ObjectId): number{
 	const yeas: number = await petitionVotes(petitionId, 0);
 	const nays: number = await petitionVotes(petitionId, 1);
 	if((yeas + nays) == 0) return 0;
 	return yeas / (yeas + nays);
 }
 
-export async function signatures(petitionId: ObjectId): number{
+export async function petitionSignatures(petitionId: ObjectId, answerIndex: number = 0): number{
 	let count = 0;
 	const petition = await collections.petitions.findOne({ _id: petitionId });
 	for(let vote of Object.keys(petition.votes)){

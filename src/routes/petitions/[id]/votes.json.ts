@@ -1,5 +1,4 @@
-import { collections } from '$lib/mongo';
-import { petitionVitality } from '$lib/govote';
+import { petitionVotes } from '$lib/govote';
 import type { RequestHandler } from '@sveltejs/kit';
 import { ObjectId } from 'mongodb';
 
@@ -7,13 +6,10 @@ export const get: RequestHandler = async (request) => {
 	//Get id from the parameters.
 	//We have this because the file is named [id].json.js
 	const _id = request.params.id;
+	const answerIndex = (request.json && await request.json()) || 0;
 
-	// construct query
-	const query = { _id: new ObjectId(_id) };
-	const entry = await collections.petitions?.findOne(query);
-
-	if (entry) {
-		entry.vitality = await petitionVitality(query._id);
+	try{
+		const entry = await petitionVotes(new ObjectId(_id), answerIndex);
 
 		return {
 			headers: { 'content-type': 'application/json' },
@@ -21,10 +17,11 @@ export const get: RequestHandler = async (request) => {
 			//https://github.com/sveltejs/kit/issues/1226
 			body: entry,
 		};
-	} //else
-	return {
-		status: 404,
-		headers: { 'content-type': 'application/json' },
-		body: { title: 'Not Found', desc: 'Error 404: not found' },
-	};
+	}catch(error){
+		return {
+	                status: 500,
+	                headers: { 'content-type': 'application/json' },
+	                body: { title: 'Something Happened', desc: error.message },
+	        };
+	}
 };
