@@ -10,8 +10,8 @@
 
 	//We actually don't want to await these because we want Promises
 	
-	export let viability = fetch('/petitions/' + _id + '/viability.json').then(result => result.text());
-	export let signatures = fetch('/petitions/' + _id + '/viability.json').then(result => result.text());
+	export let viability = fetch('/petitions/' + _id + '/viability.json').then(result => result.json());
+	export let signatures = fetch('/petitions/' + _id + '/viability.json').then(result => result.json());
 </script>
 <aside class="m-2 grid h-64 grid-cols-1 gap-4 text-xl md:pt-32">
   <div class="grid grid-cols-4 gap-2 md:grid-cols-3 lg:grid-cols-4">
@@ -19,7 +19,7 @@
       {#await viability}
         ...waiting
       {:then data}
-        {data}
+        {data.toFixed(1)}
       {:catch error}
         ERROR
       {/await}
