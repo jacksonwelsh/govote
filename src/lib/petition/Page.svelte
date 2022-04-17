@@ -6,7 +6,6 @@
   export let title = _id || '';
   export let desc = '';
   export let description = desc || '';
-  export let viability = 0;
 
   const converter = new showdown.Converter();
 
@@ -22,6 +21,5 @@
       {@html html}
     </div>
   </div>
-
-  <ActionPanel {viability}/>
+  <ActionPanel {_id}/>
 </article>

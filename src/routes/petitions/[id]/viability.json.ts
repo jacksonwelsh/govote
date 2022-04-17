@@ -1,4 +1,4 @@
-import { petitionVitality } from '$lib/govote';
+import { petitionViability } from '$lib/govote';
 import type { RequestHandler } from '@sveltejs/kit';
 import { ObjectId } from 'mongodb';
 
@@ -9,7 +9,7 @@ export const get: RequestHandler = async (request) => {
 	const answerIndex = (request.json && await request.json()) || 0;
 
 	try{
-		const entry = await petitionVitality(new ObjectId(_id), answerIndex);
+		const entry = await petitionViability(new ObjectId(_id), answerIndex);
 
 		return {
 			headers: { 'content-type': 'application/json' },

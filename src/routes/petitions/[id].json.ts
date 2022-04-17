@@ -1,5 +1,4 @@
 import { collections } from '$lib/mongo';
-import { petitionVitality } from '$lib/govote';
 import type { RequestHandler } from '@sveltejs/kit';
 import { ObjectId } from 'mongodb';
 
@@ -13,7 +12,6 @@ export const get: RequestHandler = async (request) => {
 	const entry = await collections.petitions?.findOne(query);
 
 	if (entry) {
-		entry.vitality = await petitionVitality(query._id);
 
 		return {
 			headers: { 'content-type': 'application/json' },
