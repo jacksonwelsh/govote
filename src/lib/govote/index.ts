@@ -89,3 +89,26 @@ export async function petitionSignatures(petitionId: ObjectId, answerIndex: numb
 	}
 	return count;
 }
+
+//Returns a voter's representative list
+export async function getRepresentatives(representativeId: ObjectId, voterId: ObjectId, index: number = -1): ObjectId[]{
+	
+}
+//Does a check to see if the representative is in the voter's representative list
+export async function isRepresentative(representativeId: ObjectId, voterId: ObjectId){
+	
+}
+//Adds the representative to the representatve list, if they aren't already one
+export async function represent(representativeId: ObjectId, voterId: ObjectId, index: number = -1){
+	//assert isRepresentative(representativeId, voterId) == false
+	//push the representative onto the db
+}
+export async function removeRepresentative(representativeId: ObjectId, voterId: ObjectId){
+	
+}
+export async function reorderRepresentatives(representatives: ObjectId[], voterId: ObjectId){
+	//Get current representatives
+	//Make sure they are the same representatives, albeit in a different order
+	//Set the representatives in the db to the new array
+}
+
