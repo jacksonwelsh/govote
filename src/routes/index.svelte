@@ -1,5 +1,6 @@
 <script>
 	import Banner from '$lib/Banner.svelte';
+	import LoadingCard from '$lib/petition/loadingCard.svelte';
 	import Card from '$lib/petition/card.svelte';
 	const petitions = fetch('/petitions.json').then((r) => r.json());
 </script>
@@ -20,7 +21,7 @@
 			<h2 class="mb-4">Loading Petitions...</h2>
 			<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
 				{#each Array(10) as _}
-					<Card loading={true} />
+					<LoadingCard />
 				{/each}
 			</div>
 		{:then petitions}
