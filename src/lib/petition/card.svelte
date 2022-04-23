@@ -6,7 +6,7 @@
 	const formattedDesc = desc.substring(0, 255) + '...';
 	
 	const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-	function redToGreen(value: number, max: number = 1.0, opacity: Pick<number, string> = .5): string{
+	function redToGreen(value: number, max: number = 1.0, opacity: Pick<number, string> = .25): string{
 		const maxColorValue = 256;
 		//Map the range slider value to 1.0 to 0
 		const valueMapped = value * (maxColorValue / max);
