@@ -47,6 +47,10 @@
   $: chars = description.trim().length;
 </script>
 
+<svelte:head>
+  <title>GoVote – Create</title>
+</svelte:head>
+
 <Banner>
   <div class="my-auto">
     <h1 class="my-2">Create a petition</h1>
@@ -91,7 +95,7 @@
         'transition-all',
       ].join(' ')}
     >
-      <h3>Title Tips</h3>
+      <h2>Title Tips</h2>
       <p>
         A great petition starts with a great title! This is how you draw people in, so make sure
         it's a good one. Make it actionable- something that summarizes what you hope to accomplish
@@ -106,7 +110,7 @@
         'transition-all',
       ].join(' ')}
     >
-      <h3>Nailing the Description</h3>
+      <h2>Nailing the Description</h2>
       <p>
         The description is where the magic really happens. It needs to be detailed enough to outline
         exactly what you want to happen because of this petition. On paper, this would be the letter
@@ -126,7 +130,7 @@
         'transition-all',
       ].join(' ')}
     >
-      <h3>Tagging Decision-Makers</h3>
+      <h2>Tagging Decision-Makers</h2>
       <p>
         Tagging design makers is what makes your petition actionable. This is who we'll send a
         report on the petition to, indicating that there is significant student support for

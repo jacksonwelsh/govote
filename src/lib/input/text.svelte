@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { v4 as uuid } from 'uuid';
   export let label = undefined;
   export let hint = undefined;
   export let value = '';
@@ -11,12 +12,15 @@
   const onFocus = () => dispatch('focus');
 
   const handleInput = (event) => (value = event.target.value);
+
+  const labelId = uuid();
 </script>
 
 <div class="my-2">
-  <label>
+  <label for={labelId}>
     {label}
     <input
+      id={labelId}
       on:input={handleInput}
       on:focus={onFocus}
       {type}
