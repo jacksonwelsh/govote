@@ -8,15 +8,15 @@ import { ObjectId } from 'mongodb';
 //	answerIndex: number,
 //	representative: ObjectId
 //}
-export const post: RequestHandler = async (request) => {
+export const post: RequestHandler = async ({request, params}) => {
   //Get id from the parameters.
   //We have this because the path is [id]/vote
-  const _id = request.params.id;
+  const _id = params.id;
 
   let data = undefined; //Feels dirty using a let here, but it's the only way
 
   try {
-    data = request.json && (await request.json());
+    data = await request.json();
   } catch (error) {
     return {
       status: 500,
