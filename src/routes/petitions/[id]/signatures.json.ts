@@ -9,7 +9,7 @@ export const get: RequestHandler = async ({ request, params, url }) => {
 
   console.log({ idx: url.searchParams.get('idx') });
   try {
-    const entry = await petitionSignatures(
+    const [entry, vs] = await petitionSignatures(
       new ObjectId(_id),
       0
     );
@@ -18,7 +18,7 @@ export const get: RequestHandler = async ({ request, params, url }) => {
       headers: { 'content-type': 'application/json' },
       //We don't need to stringify it because of this
       //https://github.com/sveltejs/kit/issues/1226
-      body: entry,
+      body: [entry, vs],
     };
   } catch (error) {
     return {

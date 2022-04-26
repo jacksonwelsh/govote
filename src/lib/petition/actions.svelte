@@ -1,18 +1,65 @@
 <script lang="ts">
-	import Button from '$lib/input/button.svelte';
-	import Checkmark16 from 'carbon-icons-svelte/lib/Checkmark16';
-	import Close16 from 'carbon-icons-svelte/lib/Close16';
+  import Button from '$lib/input/button.svelte';
+  import Checkmark16 from 'carbon-icons-svelte/lib/Checkmark16';
+  import Close16 from 'carbon-icons-svelte/lib/Close16';
 
-	export let _id = "";
-	//We'll replace these with endpoints too (maybe)
-	export let state: 'signed' | 'opposed' | undefined = undefined;
-	export let views = 0;
+  export let _id = '';
+  //We'll replace these with endpoints too (maybe)
+  export let state: 'signed' | 'opposed' | undefined = undefined;
+  export let views = 0;
 
-	//We actually don't want to await these because we want Promises
-	
-	export let viability = fetch('/petitions/' + _id + '/viability.json').then(result => result.json());
-	export let signatures = fetch('/petitions/' + _id + '/signatures.json?idx=0').then(result => result.json());
+  //We actually don't want to await these because we want Promises
+
+  const getVia = () =>
+    fetch('/petitions/' + _id + '/viability.json').then((result) => result.json());
+  export let viability = getVia();
+
+  const getSig = () =>
+    fetch('/petitions/' + _id + '/signatures.json?idx=0')
+      .then((result) => result.json())
+      .then((r) => {
+        if (r[1] == null) {
+          state = undefined;
+        } else if (r[1]) {
+          state = 'signed';
+        } else {
+          state = 'opposed';
+        }
+        return r[0];
+      });
+  export let signatures = getSig();
+
+  const signPositive = () => {
+    console.log('pos!');
+    fetch(`/petitions/${_id}/vote`, {
+      method: 'POST',
+      body: JSON.stringify({
+        voterId: '626824f5bf637ac3fb6a9ba5',
+        answerIndex: 0,
+        representativeId: '626824f5bf637ac3fb6a9ba5',
+      }),
+    }).then(() => {
+      state = 'signed';
+      viability = getVia();
+      signatures = getSig();
+    });
+  };
+  const signNegative = () => {
+    fetch(`/petitions/${_id}/vote`, {
+      method: 'POST',
+      body: JSON.stringify({
+        voterId: '626824f5bf637ac3fb6a9ba5',
+        answerIndex: 1,
+        representativeId: '626824f5bf637ac3fb6a9ba5',
+      }),
+    }).then(() => {
+      state = 'opposed';
+      viability = getVia();
+      signatures = getSig();
+    });
+  };
 </script>
+
 <aside class="m-2 grid h-64 grid-cols-1 gap-4 text-xl md:pt-32">
   <div class="grid grid-cols-4 gap-2 md:grid-cols-3 lg:grid-cols-4">
     <div class="mr-4 bg-green-500 py-2 text-center font-mono">
@@ -38,12 +85,15 @@
   </div>
   {#if !state}
     <Button className="bg-mean-green"
-      ><div class="flex w-full content-center items-center justify-between">
+      ><div
+        class="flex w-full content-center items-center justify-between"
+        on:click={() => signPositive()}
+      >
         <span>Sign this petition</span><Checkmark16 class="h-6 w-6" />
       </div>
     </Button>
     <Button className="bg-orange-600"
-      ><div class="flex w-full content-center items-center justify-between">
+      ><div class="flex w-full content-center items-center justify-between" on:click={signNegative}>
         <span>Oppose this petition</span><Close16 class="h-6 w-6" />
       </div>
     </Button>

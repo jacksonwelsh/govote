@@ -8,12 +8,12 @@ export const get: RequestHandler = async (request) => {
   const _id = request.params.id;
   const answerIndex = (request.json && (await request.json())) || 0;
 
-	console.log({ _id, answerIndex })
+  console.log({ _id, answerIndex });
 
   try {
-    const entry = await petitionViability(new ObjectId(_id), answerIndex);
+    const entry = await petitionViability(new ObjectId(_id));
 
-		console.log({ entry })
+    console.log({ entry });
 
     return {
       headers: { 'content-type': 'application/json' },
@@ -22,7 +22,7 @@ export const get: RequestHandler = async (request) => {
       body: entry,
     };
   } catch (error) {
-		console.error({ error, st: error.stacktrace })
+    console.error({ error, st: error.stacktrace });
     return {
       status: 500,
       headers: { 'content-type': 'application/json' },
