@@ -63,7 +63,9 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 export async function petitionVotes(petitionId: ObjectId, answerIndex: number = 0): number{
 	let count = 0;
 	const petition = await collections.petitions.findOne({ _id: petitionId });
+	console.log({ petition })
 	for(let vote of Object.values(petition.votes)){
+		console.log({vote})
 		//vote is a votingOptions interface, so we can get the answerIndex
 		if(vote.answerIndex == answerIndex) ++count;
 	}
@@ -73,9 +75,13 @@ export async function petitionVotes(petitionId: ObjectId, answerIndex: number = 
 //Returns a ratio of approve votes to disapprove votes.
 //Assuming that the petition has only two answers, Approve: 0 and Disapprove: 1
 //and that we want higher viability to mean more approval
-export async function petitionViability(petitionId: ObjectId): number{
+export async function petitionViability(petitionId: ObjectId): number {
+	console.log('ayo')
 	const yeas: number = await petitionVotes(petitionId, 0);
+	console.log('ayo2')
 	const nays: number = await petitionVotes(petitionId, 1);
+	console.error({ yeas, nays, bruh: 0 })
+
 	if((yeas + nays) == 0) return 0;
 	return yeas / (yeas + nays);
 }

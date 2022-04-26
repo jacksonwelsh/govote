@@ -1,6 +1,8 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+
   import { v4 as uuid } from 'uuid';
+
   export let label = undefined;
   export let hint = undefined;
   export let value = '';
