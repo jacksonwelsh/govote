@@ -25,7 +25,7 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 	//Check to see if the vote isn't overruled
 	//If the one voting is the person, disregard the checks
 	//If they haven't voted, go ahead and vote
-	if((voterId != representativeId) && (petitionsVotedFor.includes(petitionId))){
+	if((voterId != votingOptions.representative) && (petitionsVotedFor.includes(petitionId))){
 		assert.notStrictEqual(petition.votes[voterId], undefined, "The voter says it voted but the petition doesn't");
 
 		//If the petition had already been voted for, we have to check if the representative is higher than the one that already voted
