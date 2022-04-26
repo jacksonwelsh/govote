@@ -25,7 +25,7 @@ export async function vote(voterId: ObjectId, petitionId: ObjectId, votingOption
 	//Check to see if the vote isn't overruled
 	//If the one voting is the person, disregard the checks
 	//If they haven't voted, go ahead and vote
-	if((voterId != votingOptions.representative) && (petitionsVotedFor.includes(petitionId))){
+	if((voterId != votingOptions.representative) && (petitionsVotedFor?.includes(petitionId))){
 		assert.notStrictEqual(petition.votes[voterId], undefined, "The voter says it voted but the petition doesn't");
 
 		//If the petition had already been voted for, we have to check if the representative is higher than the one that already voted
@@ -89,11 +89,8 @@ export async function petitionViability(petitionId: ObjectId): number {
 export async function petitionSignatures(petitionId: ObjectId, answerIndex: number = 0): number{
 	let count = 0;
 	const petition = await collections.petitions.findOne({ _id: petitionId });
-	for(let vote of Object.keys(petition.votes)){
-		//vote is a votingOptions interface, so we can get the answerIndex
-		if(vote == petition.votes[vote].representative && petitions.votes[vote].answerIndex == answerIndex) ++count;
-	}
-	return count;
+
+	return Object.values(petition.votes).filter(v => v.answerIndex === answerIndex).length;
 }
 
 //Representatives absolutely suck because we need to make sure that the representatives followers gets updated too.
@@ -113,13 +110,13 @@ export async function setRepresentatives(voterId: ObjectId, newRepresentatives: 
 
 	//Update the representatives being added to include the voter as a follower
 	//Hilariously, this can be done asynchronously because each representative has a separate follower array, so there is no data race
-	const additions: ObjectId[] = newRepresentatives.filter((rep) => {return !oldRepresentatives.includes(rep)});
+	const additions: ObjectId[] = newRepresentatives.filter((rep) => {return !oldRepresentatives?.includes(rep)});
 	additions.forEach((rep) => addFollower(rep, voterId));
 
 
 	//Update the representatives being removed to remove the voter from their followers
 	//Even more hilariously, there is no data race between the additions and the removals because they are disjoint sets
-	const removals: ObjectId[] = oldRepresentatives.filter((rep) => {return !newRepresentatives.includes(rep)});
+	const removals: ObjectId[] = oldRepresentatives.filter((rep) => {return !newRepresentatives?.includes(rep)});
 	removals.forEach((rep) => removeFollower(rep, voterId));
 	additions.forEach((representative) => removeFollower(representative, voterId));
 
@@ -146,16 +143,16 @@ export async function setFollowers(voterId: ObjectId, newRepresentatives: Object
 }
 //Does a check to see if the representative is in the voter's representative list
 export async function isRepresentative(voterId: ObjectId, representativeId: ObjectId): boolean{
-	return getRepresentatives(voterId).then(reps => reps.includes(representativeId));
+	return getRepresentatives(voterId).then(reps => reps?.includes(representativeId));
 }
 //Does a check to see if the representative is in the voter's representative list
 export async function isFollower(representativeId: ObjectId, followerId: ObjectId): boolean{
-	return getFollowers(representativeId).then(reps => reps.includes(followerId));
+	return getFollowers(representativeId).then(reps => reps?.includes(followerId));
 }
 //Adds the representative to the representatve list, if they aren't already one
 export async function addRepresentative(voterId: ObjectId, representativeId: ObjectId, index: number = 0){
 	const representatives: ObjectId[] = await getRepresentatives(voterId);
-	if(!representatives.includes(representativeId)){
+	if(!representatives?.includes(representativeId)){
 		representatives.splice(index, 0, representativeId);
 		setRepresentatives(voterId, representatives);
 	}
@@ -163,7 +160,7 @@ export async function addRepresentative(voterId: ObjectId, representativeId: Obj
 //Adds the representative to the end of the representatve list, if they aren't already one
 export async function pushRepresentative(voterId: ObjectId, representativeId: ObjectId){
 	const representatives: ObjectId[] = await getRepresentatives(voterId);
-	if(!representatives.includes(representativeId)){
+	if(!representatives?.includes(representativeId)){
 		representatives.push(representativeId);
 		setRepresentatives(voterId, representatives);
 	}
@@ -172,7 +169,7 @@ export async function pushRepresentative(voterId: ObjectId, representativeId: Ob
 //Follower order doesn't matter as it's just a set
 export async function addFollower(representativeId: ObjectId, followerId: ObjectId){
 	const followers: ObjectId[] = await getFollowers(representativeId);
-	if(!followers.includes(followerId)){
+	if(!followers?.includes(followerId)){
 		followers.push(followerId);
 		setFollowers(representativeId, followers);
 	}
@@ -182,7 +179,7 @@ export async function removeRepresentative(voterId: ObjectId, representativeId: 
 	const representativeList: ObjectId[] = await getRepresentatives(voterId);
 
 	//Try to minimize api calls
-	if(!representativeList.includes(representativeId)) return;
+	if(!representativeList?.includes(representativeId)) return;
 
 	//Remove the representative from the array
 	const newRepresentativeList: ObjectId[] = representativeList.filter(function(value, index, arr){ 
@@ -197,7 +194,7 @@ export async function removeFollower(representativeId: ObjectId, followerId: Obj
 	const followerList: ObjectId[] = await getFollowers(representativeId);
 
 	//Try to minimize api calls
-	if(!followerList.includes(followerId)) return;
+	if(!followerList?.includes(followerId)) return;
 
 	//Remove the follower from the array
 	const newFollowerList: ObjectId[] = followerList.filter(function(value, index, arr){ 

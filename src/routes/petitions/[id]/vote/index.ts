@@ -50,7 +50,7 @@ export const post: RequestHandler = async ({request, params}) => {
     return {
       status: 500,
       headers: { 'content-type': 'application/json' },
-      body: { title: 'Something Happened', desc: error.message },
+      body: { title: 'Something Happened', desc: error.message, st: error.stack },
     };
   }
 };
