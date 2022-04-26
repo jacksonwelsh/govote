@@ -108,14 +108,22 @@ export async function petitionViability(petitionId: ObjectId): number {
 export async function petitionSignatures(
   petitionId: ObjectId,
   answerIndex: number = 0
-): Promise<[number, boolean | undefined]> {
-  const petition = await collections.petitions.findOne({ _id: petitionId });
+): Promise<[ObjectId]> {
+	const petition = await collections.petitions.findOne({ _id: petitionId });
+	const votes = petition.votes;
+	const entries = Object.entries(votes);
+	return entries.flatMap(([voterId, votingOption]) => {
+		console.log(voterId);
+		if(voterId == votingOption.representative && votingOption.answerIndex == answerIndex){
+			return [voterId];
+		}
+		return [];
+	});
+}
 
-  const votes = Object.values(petition.votes).filter((v) => v.answerIndex === answerIndex).length;
-
-  const vs = Object.values(petition.votes).filter((v) => v.voterId === '626824f5bf637ac3fb6a9ba5');
-
-  return [votes, vs.length > 0 ? vs[0].answerIndex === 0 : undefined];
+export async function petitionSigned(petitionId: ObjectId, voterId: ObjectId): Promise<number | undefined>{
+	const petition = await collections.petitions.findOne({ _id: petitionId });
+	return petition?.votes?.[voterId]?.answerIndex;
 }
 
 //Representatives absolutely suck because we need to make sure that the representatives followers gets updated too.

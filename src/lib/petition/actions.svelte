@@ -5,7 +5,7 @@
 
   export let _id = '';
   //We'll replace these with endpoints too (maybe)
-  export let state: 'signed' | 'opposed' | undefined = undefined;
+  export let state: number | undefined = undefined;
   export let views = 0;
 
   //We actually don't want to await these because we want Promises
@@ -14,20 +14,23 @@
     fetch('/petitions/' + _id + '/viability.json').then((result) => result.json());
   export let viability = getVia();
 
-  const getSig = () =>
-    fetch('/petitions/' + _id + '/signatures.json?idx=0')
-      .then((result) => result.json())
-      .then((r) => {
-        if (r[1] == null) {
-          state = undefined;
-        } else if (r[1]) {
-          state = 'signed';
-        } else {
-          state = 'opposed';
-        }
-        return r[0];
-      });
-  export let signatures = getSig();
+  const getState = async () => {
+	return await fetch('/petitions/' + _id + '/signed.json?idx=0').then((result) => result.json()).then((result) => {
+		if(typeof result == 'object') return undefined;
+		//console.log(result);
+		return result;
+	});
+  };
+
+  getState().then((bruh) => {
+	//console.log(bruh);
+	state = bruh
+  });
+
+  const getSignatures = () => fetch('/petitions/' + _id + '/signatures.json?idx=0').then((result) => result.json()).then((result) => {
+	return result.length;
+  });
+  export let signatures = getSignatures();
 
   const signPositive = () => {
     console.log('pos!');
@@ -36,12 +39,12 @@
       body: JSON.stringify({
         voterId: '626824f5bf637ac3fb6a9ba5',
         answerIndex: 0,
-        representativeId: '626824f5bf637ac3fb6a9ba5',
+        representative: '626824f5bf637ac3fb6a9ba5',
       }),
     }).then(() => {
-      state = 'signed';
+      state = 0;
       viability = getVia();
-      signatures = getSig();
+      signatures = getSignatures();
     });
   };
   const signNegative = () => {
@@ -53,9 +56,9 @@
         representativeId: '626824f5bf637ac3fb6a9ba5',
       }),
     }).then(() => {
-      state = 'opposed';
+      state = 1;
       viability = getVia();
-      signatures = getSig();
+      signatures = getSignatures();
     });
   };
 </script>
@@ -83,7 +86,7 @@
     </div>
     <div class="col-span-3 flex items-center">Signatures</div>
   </div>
-  {#if !state}
+  {#if state === undefined}
     <Button className="bg-mean-green"
       ><div
         class="flex w-full content-center items-center justify-between"
@@ -97,11 +100,11 @@
         <span>Oppose this petition</span><Close16 class="h-6 w-6" />
       </div>
     </Button>
-  {:else if state === 'signed'}
+  {:else if state == 0}
     <div class="text-green-600 dark:text-green-400 flex items-center">
       <Checkmark16 class="h-6 w-6 mr-2" /> You have signed this petition.
     </div>
-  {:else if state === 'opposed'}
+  {:else if state == 1}
     <div class="text-orange-600 dark:text-orange-400 flex items-center">
       <Checkmark16 class="h-6 w-6 mr-2" /> You have opposed this petition.
     </div>

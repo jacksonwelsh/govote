@@ -9,7 +9,7 @@ export const get: RequestHandler = async ({ request, params, url }) => {
 
   console.log({ idx: url.searchParams.get('idx') });
   try {
-    const [entry, vs] = await petitionSignatures(
+    const data = await petitionSignatures(
       new ObjectId(_id),
       0
     );
@@ -18,13 +18,13 @@ export const get: RequestHandler = async ({ request, params, url }) => {
       headers: { 'content-type': 'application/json' },
       //We don't need to stringify it because of this
       //https://github.com/sveltejs/kit/issues/1226
-      body: [entry, vs],
+      body: data,
     };
   } catch (error) {
     return {
       status: 500,
       headers: { 'content-type': 'application/json' },
-      body: { title: 'Something Happened', desc: 'Error 500: Something Happened' },
+      body: { title: 'Something Happened', desc: error.message },
     };
   }
 };
