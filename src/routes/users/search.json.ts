@@ -1,9 +1,15 @@
 import { collections } from '$lib/mongo';
 import type { RequestHandler } from '@sveltejs/kit';
+import { ObjectId } from 'mongodb';
 
 export const get: RequestHandler = async ({ request, params, url }) => {
 
   const query = JSON.parse(url.searchParams.get('query'));	//Query is literally an object I send through the url. The object is called query. Like search?query=JSONSTUFF
+
+  if(query._id){
+    if(typeof (query._id) == 'string') query._id = new ObjectId(query._id);
+    else if(query._id["$in"]) query._id["$in"] = query._id["$in"].map((id) => new ObjectId(id));
+  }
 
   const posts = await collections.voters?.find(query).toArray();
 
