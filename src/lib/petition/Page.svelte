@@ -1,6 +1,7 @@
 <script>
   import showdown from 'showdown';
   import ActionPanel from './actions.svelte';
+  import Signers from './signers.svelte';
 
   export let _id = '';
   export let title = _id || '';
@@ -22,4 +23,5 @@
     </div>
   </div>
   <ActionPanel {_id}/>
+  <Signers {_id}/>
 </article>

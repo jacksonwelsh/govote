@@ -7,7 +7,8 @@ export const get: RequestHandler = async ({ request, params, url }) => {
   //We have this because the file is named [id].json.js
   const _id = params.id;
 
-  console.log({ idx: url.searchParams.get('idx') });
+  const idx = url.searchParams.get('idx');
+
   try {
     const data = await petitionSigned(new ObjectId(_id), new ObjectId("626824f5bf637ac3fb6a9ba5"));
 

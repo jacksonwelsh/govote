@@ -81,9 +81,7 @@ export async function vote(
 export async function petitionVotes(petitionId: ObjectId, answerIndex: number = 0): number {
   let count = 0;
   const petition = await collections.petitions.findOne({ _id: petitionId });
-  console.log({ petition });
   for (let vote of Object.values(petition.votes)) {
-    console.log({ vote });
     //vote is a votingOptions interface, so we can get the answerIndex
     if (vote.answerIndex == answerIndex) ++count;
   }
@@ -95,9 +93,7 @@ export async function petitionVotes(petitionId: ObjectId, answerIndex: number = 
 //Assuming that the petition has only two answers, Approve: 0 and Disapprove: 1
 //and that we want higher viability to mean more approval
 export async function petitionViability(petitionId: ObjectId): number {
-  console.log('ayo');
   const yeas: number = await petitionVotes(petitionId, 0);
-  console.log('ayo2');
   const nays: number = await petitionVotes(petitionId, 1);
   console.error({ yeas, nays, bruh: 0 });
 
@@ -113,7 +109,6 @@ export async function petitionSignatures(
 	const votes = petition.votes;
 	const entries = Object.entries(votes);
 	return entries.flatMap(([voterId, votingOption]) => {
-		console.log(voterId);
 		if(voterId == votingOption.representative && votingOption.answerIndex == answerIndex){
 			return [voterId];
 		}
