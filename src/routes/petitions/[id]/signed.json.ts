@@ -10,7 +10,7 @@ export const get: RequestHandler = async ({ request, params, url }) => {
   const idx = url.searchParams.get('idx');
 
   try {
-    const data = await petitionSigned(new ObjectId(_id), new ObjectId("626ac42eba40e6adac4eec2f"));
+    const data = await petitionSigned(new ObjectId(_id), new ObjectId("626ac4c88ace603fdc098245"));
 
     return {
       headers: { 'content-type': 'application/json' },

@@ -37,9 +37,9 @@
     fetch(`/petitions/${_id}/vote`, {
       method: 'POST',
       body: JSON.stringify({
-        voterId: '626ac42eba40e6adac4eec2f',
+        voterId: '626ac4c88ace603fdc098245',
         answerIndex: 0,
-        representative: '626ac42eba40e6adac4eec2f',
+        representative: '626ac4c88ace603fdc098245',
       }),
     }).then(() => {
       state = 0;
@@ -51,9 +51,9 @@
     fetch(`/petitions/${_id}/vote`, {
       method: 'POST',
       body: JSON.stringify({
-        voterId: '626ac42eba40e6adac4eec2f',
+        voterId: '626ac4c88ace603fdc098245',
         answerIndex: 1,
-        representativeId: '626ac42eba40e6adac4eec2f',
+        representativeId: '626ac4c88ace603fdc098245',
       }),
     }).then(() => {
       state = 1;
